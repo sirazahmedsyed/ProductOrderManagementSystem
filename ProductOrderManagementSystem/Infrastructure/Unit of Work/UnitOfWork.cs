@@ -11,7 +11,7 @@ namespace ProductOrderManagementSystem.Repositories
         private IGenericRepository<Product> _products;
         private IGenericRepository<Order> _orders;
         private IGenericRepository<OrderDetail> _orderDetails;
-
+        private IGenericRepository<Customer> _customers;
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
@@ -20,6 +20,7 @@ namespace ProductOrderManagementSystem.Repositories
         public IGenericRepository<Product> Products => _products ??= new GenericRepository<Product>(_context);
         public IGenericRepository<Order> Orders => _orders ??= new GenericRepository<Order>(_context);
         public IGenericRepository<OrderDetail> OrderDetails => _orderDetails ??= new GenericRepository<OrderDetail>(_context);
+        public IGenericRepository<Customer> Customers => _customers ??= new GenericRepository<Customer>(_context);
 
         public async Task<int> SaveAsync()
         {

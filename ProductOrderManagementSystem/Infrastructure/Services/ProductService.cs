@@ -50,10 +50,33 @@ namespace ProductOrderManagementSystem.Infrastructure.Services
             }
         }
 
+        //public async Task<ProductDTO> CreateProductAsync(ProductDTO productDto)
+        //{
+        //    try
+        //    {
+        //        var product = _mapper.Map<Product>(productDto);
+        //        await _unitOfWork.Products.AddAsync(product);
+        //        await _unitOfWork.SaveAsync();
+        //        _logger.LogInformation($"Product created successfully. Product ID: {product.ProductId}");
+        //        return _mapper.Map<ProductDTO>(product);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, "Error occurred while creating product");
+        //        throw;
+        //    }
+        //}
         public async Task<ProductDTO> CreateProductAsync(ProductDTO productDto)
         {
             try
             {
+                // Check if a product with the same name already exists
+                var existingProduct = await _unitOfWork.Products.GetByNameAsync(productDto.Name);
+                if (existingProduct != null)
+                {
+                    throw new DuplicateProductException($"A product with the name '{productDto.Name}' already exists.");
+                }
+
                 var product = _mapper.Map<Product>(productDto);
                 await _unitOfWork.Products.AddAsync(product);
                 await _unitOfWork.SaveAsync();

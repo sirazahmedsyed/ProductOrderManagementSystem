@@ -12,8 +12,8 @@ using ProductOrderManagementSystem.Infrastructure.DBContext;
 namespace ProductOrderManagementSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240827131442_initialcreate")]
-    partial class initialcreate
+    [Migration("20240828123110_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,10 +45,8 @@ namespace ProductOrderManagementSystem.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("CustomerName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid");
 
                     b.Property<decimal>("DiscountPercentage")
                         .HasColumnType("numeric");
@@ -57,6 +55,8 @@ namespace ProductOrderManagementSystem.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("OrderId");
+
+                    b.HasIndex("CustomerId");
 
                     b.ToTable("Orders");
                 });
@@ -107,6 +107,17 @@ namespace ProductOrderManagementSystem.Migrations
                     b.HasKey("ProductId");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("ProductOrderManagementSystem.Infrastructure.Entities.Order", b =>
+                {
+                    b.HasOne("ProductOrderManagementSystem.Infrastructure.Entities.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("ProductOrderManagementSystem.Infrastructure.Entities.OrderDetail", b =>

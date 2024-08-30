@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProductOrderManagementSystem.Infrastructure.DTOs;
+using ProductOrderManagementSystem.Infrastructure.Entities;
 using ProductOrderManagementSystem.Infrastructure.Services;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ namespace ProductOrderManagementSystem.Controllers
         public async Task<IActionResult> GetOrders()
         {
             var orders = await _orderService.GetAllOrdersAsync();
+            //var orders = await _orderService.GetAllOrdersWithDetailsAsync();
             return Ok(orders);
         }
 
@@ -35,6 +37,25 @@ namespace ProductOrderManagementSystem.Controllers
             }
             return Ok(order);
         }
+
+        //[HttpGet("{id}")]
+        //public async Task<IActionResult> GetOrderById(Guid id)
+        //{
+        //    try
+        //    {
+        //        var order = await _orderService.GetOrderByIdAsync(id);
+        //        return Ok(order);
+        //    }
+        //    catch (NotFoundException ex)
+        //    {
+        //        return NotFound(ex.Message);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, $"Error occurred while fetching order with ID {id}");
+        //        return StatusCode(500, "An error occurred while processing your request. Please try again later.");
+        //    }
+        //}
 
         [HttpPost]
         public async Task<IActionResult> CreateOrder([FromBody] OrderDTO orderDto)

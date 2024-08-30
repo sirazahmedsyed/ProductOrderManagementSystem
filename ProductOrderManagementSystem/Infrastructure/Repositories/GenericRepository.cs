@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ProductOrderManagementSystem.Infrastructure.DBContext;
+using System.Linq.Expressions;
 
 namespace ProductOrderManagementSystem.Infrastructure.Repositories
 {
@@ -27,6 +28,10 @@ namespace ProductOrderManagementSystem.Infrastructure.Repositories
             return await _dbSet.FindAsync(id);
         }
 
+        public virtual async Task<T> GetByNameAsync(string name)
+        {
+            return await _dbSet.FirstOrDefaultAsync(e => EF.Property<string>(e, "Name") == name);
+        }
         public virtual async Task AddAsync(T entity)
         {
             await _dbSet.AddAsync(entity);
@@ -43,6 +48,31 @@ namespace ProductOrderManagementSystem.Infrastructure.Repositories
             T entityToDelete = await _dbSet.FindAsync(id);
             _dbSet.Remove(entityToDelete);
         }
+
+
+        // New method for eager loading
+        public virtual async Task<IEnumerable<T>> GetAllWithIncludesAsync(params Expression<Func<T, object>>[] includeProperties)
+        {
+            IQueryable<T> query = _dbSet;
+            foreach (var includeProperty in includeProperties)
+            {
+                query = query.Include(includeProperty);
+            }
+            return await query.ToListAsync();
+        }
+
+        // New method for eager loading a single entity
+        public virtual async Task<T> GetByIdWithIncludesAsync(object id, params Expression<Func<T, object>>[] includeProperties)
+        {
+            IQueryable<T> query = _dbSet;
+            foreach (var includeProperty in includeProperties)
+            {
+                query = query.Include(includeProperty);
+            }
+            return await query.FirstOrDefaultAsync(e => EF.Property<object>(e, "Id").Equals(id));
+        }
     }
+
 }
+
 

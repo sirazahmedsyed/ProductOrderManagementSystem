@@ -11,17 +11,30 @@ namespace ProductOrderManagementSystem.Infrastructure.Entities
 
         [Required]
         [StringLength(100, MinimumLength = 2)]
-        public string? CustomerName { get; set; }
-
+       // public string? CustomerName { get; set; }
+       public Customer? Customer { get; set; }
         [Range(0, 100)]
         public decimal DiscountPercentage { get; set; }
 
-        public ICollection<OrderDetail>? OrderDetails { get; set; }
+        public ICollection<OrderDetail> OrderDetails { get; set; }
 
-        [NotMapped]
-        public decimal TotalAmount => OrderDetails?.Sum(od => od.Quantity * od.Product.Price * (1 + od.Product.TaxPercentage / 100)) ?? 0;
+       
+        public decimal TotalAmount { get; set; }
 
-        [NotMapped]
-        public decimal DiscountedTotal => TotalAmount * (1 - DiscountPercentage / 100);
+       
+        public decimal DiscountedTotal { get; set; }
+
+
+        public void CalculateTotals()
+        {
+            TotalAmount = OrderDetails?.Sum(od => od.Quantity * od.Product.Price * (1 + od.Product.TaxPercentage / 100)) ?? 0;
+            DiscountedTotal = TotalAmount * (1 - DiscountPercentage / 100);
+        }
+
+        //[NotMapped]
+        //public decimal TotalAmount => OrderDetails?.Sum(od => od.Quantity * od.Product.Price * (1 + od.Product.TaxPercentage / 100)) ?? 0;
+
+        //[NotMapped]
+        //public decimal DiscountedTotal => TotalAmount * (1 - DiscountPercentage / 100);
     }
 }

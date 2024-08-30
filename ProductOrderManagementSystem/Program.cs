@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using ProductOrderManagementSystem.Infrastructure.DBContext;
+using ProductOrderManagementSystem.Infrastructure.Middleware;
 using ProductOrderManagementSystem.Infrastructure.Profiles;
 using ProductOrderManagementSystem.Infrastructure.Repositories;
 using ProductOrderManagementSystem.Infrastructure.Services;
@@ -41,7 +42,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseAuthorization();
-
+app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 app.MapControllers();
 
 app.Run();
