@@ -19,20 +19,7 @@ namespace ProductOrderManagementSystem.Infrastructure.Services
             _logger = logger;
         }
 
-        //public async Task<IEnumerable<OrderDTO>> GetAllOrdersAsync()
-        //{
-        //    try
-        //    {
-        //        var orders = await _unitOfWork.Orders.GetAllAsync();
-        //        return _mapper.Map<IEnumerable<OrderDTO>>(orders);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex, "Error occurred while fetching all orders");
-        //        throw;
-        //    }
-        //}
-
+        
         public async Task<IEnumerable<OrderDTO>> GetAllOrdersAsync()
         {
             try
@@ -49,22 +36,7 @@ namespace ProductOrderManagementSystem.Infrastructure.Services
             }
         }
 
-        //public async Task<IEnumerable<OrderDTO>> GetAllOrdersWithDetailsAsync()
-        //{
-        //    try
-        //    {
-        //        var orders = await _unitOfWork.Orders.GetAllWithIncludesAsync(
-        //            o => o.Customer,
-        //            o => o.OrderDetails);
-        //        return _mapper.Map<IEnumerable<OrderDTO>>(orders);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex, "Error occurred while fetching all orders with details");
-        //        throw;
-        //    }
-        //}
-
+        
         public async Task<OrderDTO> GetOrderByIdAsync(Guid orderId)
         {
             try
@@ -142,45 +114,7 @@ namespace ProductOrderManagementSystem.Infrastructure.Services
             }
         }
 
-        //public async Task<OrderDTO> CreateOrderAsync(OrderDTO orderDto)
-        //{
-        //    try
-        //    {
-        //        var order = _mapper.Map<Order>(orderDto);
-        //         order.OrderDate = DateTime.UtcNow;
-
-        //        var groupedOrderDetails = order.OrderDetails
-        //            .GroupBy(od => od.ProductId)
-        //            .Select(g => new OrderDetail
-        //            {
-        //                ProductId = g.Key,
-        //                Quantity = g.Sum(od => od.Quantity)
-        //            })
-        //            .ToList();
-        //        order.OrderDetails = groupedOrderDetails;
-
-        //        foreach (var orderDetail in order.OrderDetails)
-        //        {
-        //            var product = await _unitOfWork.Products.GetByIdAsync(orderDetail.ProductId);
-        //            if (product == null)
-        //            {
-        //                throw new NotFoundException($"Product with ID {orderDetail.ProductId} not found.");
-        //            }
-        //        }
-
-        //        await _unitOfWork.Orders.AddAsync(order);
-        //        await _unitOfWork.SaveAsync();
-
-        //        _logger.LogInformation($"Order created successfully. Order ID: {order.OrderId}");
-        //        return _mapper.Map<OrderDTO>(order);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex, "Error occurred while creating order");
-        //        throw;
-        //    }
-        //}
-
+        
         public async Task UpdateOrderAsync(OrderDTO orderDto)
         {
             try

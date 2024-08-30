@@ -31,10 +31,6 @@ namespace ProductOrderManagementSystem.Infrastructure.Entities
             DiscountedTotal = TotalAmount * (1 - DiscountPercentage / 100);
         }
 
-        //[NotMapped]
-        //public decimal TotalAmount => OrderDetails?.Sum(od => od.Quantity * od.Product.Price * (1 + od.Product.TaxPercentage / 100)) ?? 0;
-
-        //[NotMapped]
-        //public decimal DiscountedTotal => TotalAmount * (1 - DiscountPercentage / 100);
+        
     }
 }
