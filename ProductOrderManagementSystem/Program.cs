@@ -29,6 +29,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
+builder.Services.AddMemoryCache();
 
 builder.Services.AddControllers();
 

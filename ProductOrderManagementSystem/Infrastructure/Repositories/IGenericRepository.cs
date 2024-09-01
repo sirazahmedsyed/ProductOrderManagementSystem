@@ -14,6 +14,6 @@ namespace ProductOrderManagementSystem.Infrastructure.Repositories
         Task DeleteAsync(object id);
 
         Task<IEnumerable<T>> GetAllWithIncludesAsync(params Expression<Func<T, object>>[] includeProperties);
-        Task<T> GetByIdWithIncludesAsync(object id, params Expression<Func<T, object>>[] includeProperties);
+        Task<T> GetByIdWithIncludesAsync(Guid id, params Expression<Func<T, object>>[] includeProperties);
     }
 }

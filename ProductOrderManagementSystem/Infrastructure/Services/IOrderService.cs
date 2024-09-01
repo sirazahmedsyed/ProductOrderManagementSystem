@@ -8,7 +8,8 @@ namespace ProductOrderManagementSystem.Infrastructure.Services
     Task<IEnumerable<OrderDTO>> GetAllOrdersAsync();
     Task<OrderDTO> GetOrderByIdAsync(Guid orderId);
     Task<OrderDTO> CreateOrderAsync(OrderDTO orderDTO);
-    Task UpdateOrderAsync(OrderDTO orderDTO);
+
+    Task<OrderDTO> UpdateOrderAsync(OrderDTO orderDTO);
     Task DeleteOrderAsync(Guid orderId);
 
    

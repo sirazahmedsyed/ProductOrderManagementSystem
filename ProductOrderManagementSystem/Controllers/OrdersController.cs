@@ -23,7 +23,6 @@ namespace ProductOrderManagementSystem.Controllers
         public async Task<IActionResult> GetOrders()
         {
             var orders = await _orderService.GetAllOrdersAsync();
-            //var orders = await _orderService.GetAllOrdersWithDetailsAsync();
             return Ok(orders);
         }
 
@@ -38,7 +37,6 @@ namespace ProductOrderManagementSystem.Controllers
             return Ok(order);
         }
 
-
         [HttpPost]
         public async Task<IActionResult> CreateOrder([FromBody] OrderDTO orderDto)
         {
@@ -46,10 +44,19 @@ namespace ProductOrderManagementSystem.Controllers
             {
                 return BadRequest();
             }
-
-            await _orderService.CreateOrderAsync(orderDto);
-            return CreatedAtAction(nameof(GetOrderById), new { id = orderDto.OrderId }, orderDto);
+           
+            try
+            {
+                var createdOrder = await _orderService.CreateOrderAsync(orderDto);
+                return CreatedAtAction(nameof(GetOrderById), new { id = createdOrder.OrderId }, createdOrder);
+            }
+            catch (DuplicateProductException ex)
+            {
+                return Conflict(new { message = ex.Message });
+            }
         }
+
+        
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateOrder(Guid id, [FromBody] OrderDTO orderDto)
@@ -59,15 +66,21 @@ namespace ProductOrderManagementSystem.Controllers
                 return BadRequest();
             }
 
-            var order = await _orderService.GetOrderByIdAsync(id);
-            if (order == null)
+            try
+            {
+                var updatedOrder = await _orderService.UpdateOrderAsync(orderDto);
+                return Ok(updatedOrder);
+            }
+            catch (NotFoundException)
             {
                 return NotFound();
             }
-
-            await _orderService.UpdateOrderAsync(orderDto);
-            return NoContent();
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
+
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOrder(Guid id)

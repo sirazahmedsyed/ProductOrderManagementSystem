@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using ProductOrderManagementSystem.Infrastructure.DTOs;
 using ProductOrderManagementSystem.Infrastructure.Entities;
 using ProductOrderManagementSystem.Infrastructure.Services;
@@ -10,10 +11,11 @@ namespace ProductOrderManagementSystem.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly IProductService _productService;
-
-        public ProductsController(IProductService productService)
+        private readonly IMemoryCache _memoryCache;
+        public ProductsController(IProductService productService, IMemoryCache memoryCache)
         {
             _productService = productService;
+            _memoryCache = memoryCache;
         }
 
         [HttpGet]

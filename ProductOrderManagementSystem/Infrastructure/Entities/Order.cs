@@ -25,11 +25,11 @@ namespace ProductOrderManagementSystem.Infrastructure.Entities
         public decimal DiscountedTotal { get; set; }
 
 
-        public void CalculateTotals()
-        {
-            TotalAmount = OrderDetails?.Sum(od => od.Quantity * od.Product.Price * (1 + od.Product.TaxPercentage / 100)) ?? 0;
-            DiscountedTotal = TotalAmount * (1 - DiscountPercentage / 100);
-        }
+        //public void CalculateTotals()
+        //{
+        //    TotalAmount = OrderDetails?.Sum(od => od.Quantity * od.Product.Price * (1 + od.Product.TaxPercentage / 100)) ?? 0;
+        //    DiscountedTotal = TotalAmount * (1 - DiscountPercentage / 100);
+        //}
 
         
     }

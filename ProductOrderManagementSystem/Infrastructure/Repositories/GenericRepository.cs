@@ -62,15 +62,26 @@ namespace ProductOrderManagementSystem.Infrastructure.Repositories
         }
 
         // New method for eager loading a single entity
-        public virtual async Task<T> GetByIdWithIncludesAsync(object id, params Expression<Func<T, object>>[] includeProperties)
+        //public virtual async Task<T> GetByIdWithIncludesAsync(object id, params Expression<Func<T, object>>[] includeProperties)
+        //{
+        //    IQueryable<T> query = _dbSet;
+        //    foreach (var includeProperty in includeProperties)
+        //    {
+        //        query = query.Include(includeProperty);
+        //    }
+        //    return await query.FirstOrDefaultAsync(e => EF.Property<object>(e, "Id").Equals(id));
+        //}
+
+        public virtual async Task<T> GetByIdWithIncludesAsync(Guid id, params Expression<Func<T, object>>[] includeProperties)
         {
             IQueryable<T> query = _dbSet;
             foreach (var includeProperty in includeProperties)
             {
                 query = query.Include(includeProperty);
             }
-            return await query.FirstOrDefaultAsync(e => EF.Property<object>(e, "Id").Equals(id));
+            return await query.FirstOrDefaultAsync(e => EF.Property<object>(e, "OrderId").Equals(id));
         }
+
     }
 
 }
